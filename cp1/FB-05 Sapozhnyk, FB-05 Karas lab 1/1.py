@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 
 
-
 class TextAnalyzer():
     def __init__(self):
         self.alfavit = 'абвгдеёэжзиыйклмнопрстуфхцчшщъьюя'
@@ -35,7 +34,7 @@ class TextAnalyzer():
             dictionary[i] += 1
         # Цикл for проходит по всем элементам алфавита с вероятностями
         for l in alfavit:
-            dictionary.update({l: round(dictionary[l] / len(txt), 5)})# Для каждого элемента считается вероятность и округляется до 5 знаков после запятой
+            dictionary.update({l: round(dictionary[l] / len(txt), 8)})# Для каждого элемента считается вероятность и округляется до 5 знаков после запятой
         return dictionary        # Функция возвращает результирующий словарь
     def fre_of_bigrams(self, txt,alfavit, cross=True):
         # функция fre_of_bigrams() создает словарь с частотами встречаемости биграмм в тексте.
@@ -50,7 +49,7 @@ class TextAnalyzer():
             for i in range(len(txt) - 1):
                 dictionary[txt[i] + txt[i + 1]] += 1
             for key in dictionary.keys():
-                dictionary[key] = round(dictionary[key] / (len(txt) - 1), 5)
+                dictionary[key] = round(dictionary[key] / (len(txt) - 1), 8)
         else:
             if len(txt) % 2 == 1:
                 txt += "а"
@@ -59,24 +58,20 @@ class TextAnalyzer():
                     continue
                 dictionary[txt[i] + txt[i + 1]] += 1
             for key in dictionary.keys():
-                dictionary[key] = round(dictionary[key] / (len(txt) - 1), 5)
+                dictionary[key] = round(dictionary[key] / (len(txt) - 1), 8)
         return dictionary
     def save(self,f1,f2,f11,f12,f21,f22):
-        pd.DataFrame(f1.values(), index=f1.keys()).to_excel('Частота букв з пробілами.xlsx') #частота букв с пробелом
+        pd.DataFrame(f1.values(), index=f1.keys()).to_excel('1.xlsx')
         time_verable = np.array(list(f11.values()))
-        pd.DataFrame(time_verable.reshape((34, 34)), index=f1.keys(), columns=f1.keys()).to_excel('Частота біграм з пробілами.xlsx')
+        pd.DataFrame(time_verable.reshape((34, 34)), index=f1.keys(), columns=f1.keys()).to_excel('2.xlsx')
         time_verable = np.array(list(f12.values()))
-        pd.DataFrame(time_verable.reshape((34, 34)), index=f1.keys(), columns=f1.keys()).to_excel('Частота перехресних біграм з пробілами.xlsx')
-        pd.DataFrame(f2.values(), index=f2.keys()).to_excel('Частота букв без пробілів.xlsx')
+        pd.DataFrame(time_verable.reshape((34, 34)), index=f1.keys(), columns=f1.keys()).to_excel('3.xlsx')
+        pd.DataFrame(f2.values(), index=f2.keys()).to_excel('4.xlsx')
         vva = np.array(list(f21.values()))
-        pd.DataFrame(vva.reshape((33, 33)), index=f2.keys(), columns=f2.keys()).to_excel('Частота біграм без пробілів.xlsx')
-        time_verable, a22 = np.array(list(f22.values())), pd.DataFrame(vva.reshape((33, 33)), index=f2.keys(), columns=f2.keys())
-        a22.to_excel('Частота перехресних біграм без пробілів.xlsx')
-
-
-
-
-
+        pd.DataFrame(vva.reshape((33, 33)), index=f2.keys(), columns=f2.keys()).to_excel('5.xlsx')
+        time_verable, a22 = np.array(list(f22.values())), pd.DataFrame(vva.reshape((33, 33)), index=f2.keys(),
+                                                                       columns=f2.keys())
+        a22.to_excel('6.xlsx')
     def main(self):
 
         # Этот код открывает файл 2.txt в кодировке UTF-8,
@@ -98,12 +93,12 @@ class TextAnalyzer():
         print(f'Надл={self.nadl(e_f1, len(self.alfavit_with_prob))}')
         f11 = self.fre_of_bigrams(text,self.alfavit_with_prob, True)
         print(f'Частота біграм-{f11}')
-        e_f11 = self.entropy(f11, 2)
+        e_f11 = self.entropy(f11, 2.06)
         print(f'H2={e_f11}')
         print(f'Надл = {self.nadl(e_f11, len(self.alfavit_with_prob))}')
         f12 = self.fre_of_bigrams(text,self.alfavit_with_prob, False)
         print(f'Частота перехресних біграм - {f11}')
-        ef12 = self.entropy(f12, 2)
+        ef12 = self.entropy(f12, 1.15)
         print(f'H2п={ef12}')
         print(f'Надл-{self.nadl(ef12, len(self.alfavit_with_prob))}')
         print(f'===Без пробілів===')
@@ -118,12 +113,12 @@ class TextAnalyzer():
         print(f'Надлишков={self.nadl(e_f2, len(self.alfavit))}')
         f21 = self.fre_of_bigrams(text,self.alfavit, True)
         print(f'Частота біграм-{f21}')
-        e_f21 = self.entropy(f21, 2)
+        e_f21 = self.entropy(f21, 2.06)
         print(f'H2={e_f21}')
         print(f'Надлишковість ={self.nadl(e_f21, len(self.alfavit))}')
         f22 = self.fre_of_bigrams(text, self.alfavit,False)
         print(f'Частота перехресних біграм - {f21}')
-        ef22 = self.entropy(f22, 2)
+        ef22 = self.entropy(f22, 1.15)
         print(f'H2-p = {ef22}')
         print(f'Надлилшковість = {self.nadl(ef22, len(self.alfavit))}')
         self.save(f1, f2, f11, f12, f21, f22)
