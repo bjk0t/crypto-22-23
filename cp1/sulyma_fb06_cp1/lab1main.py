@@ -9,7 +9,7 @@ x.close()
 text = text.lower()
 text = ' '.join(text.split())
 
-alphabet_with_space = 'а,б,в,г,д,е,ё,ж,з,и,й,к,л,м,н,о,п,р,с,т,у,ф,х,ц,ч,щ,ъ,ы,ь,э,ю,я, '
+alphabet_with_space = 'а#б#в#г#д#е#ё#ж#з#и#й#к#л#м#н#о#п#р#с#т#у#ф#х#ц#ч#щ#ъ#ы#ь#э#ю#я# '.split('#')
 
 new_text = ''
 for i in text:
