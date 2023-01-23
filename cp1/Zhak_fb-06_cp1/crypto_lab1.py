@@ -194,7 +194,7 @@ for i in range(1, len(matrix[0])):
             H_1_1 += matrix[i][j]*math.log2(matrix[i][j])
 print(-0.5 * H_1_1)
 
-print(1 - (-0.5 * H_1_1/math.log2(keys)))
+print(1 - (-0.5 * H_1_1/math.log2(32)))
 
 print('---------------------------------------------------------------------------------------------------------------')
 
@@ -218,7 +218,7 @@ for i in range(1, len(matrix[0])):
             H_2_1 += matrix[i][j]*math.log2(matrix[i][j])
 print(-0.5 * H_2_1)
 
-print(1 - (-0.5 * H_2_1/math.log2(keys0)))
+print(1 - (-0.5 * H_2_1/math.log2(31)))
 
 print('---------------------------------------------------------------------------------------------------------------')
 
@@ -312,7 +312,7 @@ for i in range(1, len(matrix[0])):
             H_1_2 += matrix[i][j]*math.log2(matrix[i][j])
 print(-0.5 * H_1_2)
 
-print(1 - (-0.5 * H_1_2/math.log2(keys)))
+print(1 - (-0.5 * H_1_2/math.log2(32)))
 
 print('---------------------------------------------------------------------------------------------------------------')
 
@@ -336,4 +336,4 @@ for i in range(1, len(matrix[0])):
             H_2_2 += matrix[i][j]*math.log2(matrix[i][j])
 print(-0.5 * H_2_2)
 
-print(1 - (-0.5 * H_2_2/math.log2(keys0)))
+print(1 - (-0.5 * H_2_2/math.log2(31)))
