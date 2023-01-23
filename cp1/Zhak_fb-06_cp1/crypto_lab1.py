@@ -18,7 +18,6 @@ text = text.read()
 text = text.lower()
 
 spec_chars = string.punctuation + '\n\xa0«»\t—…-–№ó'
-
 text = "".join([ch for ch in text if ch not in spec_chars])
 
 def remove_chars_from_text(text, chars):
@@ -52,21 +51,21 @@ for k in range(len(text00)-1):
         print(kar(text00[k]))
 
 with open('lab1_crypto.txt', "w", encoding="utf-8") as f:
-    f.write(" ".join(text11))
+    f.write("".join(text11))
     f.close()
 
 
 with open('lab1.0_crypto.txt', "w", encoding="utf-8") as f:
-    f.write(" ".join(text00))
+    f.write("".join(text00))
     f.close()
 
 symbols = 0
 symbols0 = 0
 
-for line in text:
+for line in text11:
     symbols += len(line.strip('\n'))
 
-for line in text0:
+for line in text00:
     symbols0 += len(line.strip('\n'))
 
 dict = {'а': 0, 'б': 0, 'в': 0, 'г': 0, 'д': 0, 'е': 0, 'ж': 0, 'з': 0, 'и': 0, 'й': 0, 'к': 0, 'л': 0, 'м': 0, 'н': 0,
@@ -88,7 +87,7 @@ for i in dict:
     H_1_0 += dict[i]*math.log2(dict[i])
 print(-1 * H_1_0)
 
-print(1 - (H_1_0/math.log2(32)))
+print(1 - (-1 * H_1_0/math.log2(32)))
 
 del dict['пробел']
 
@@ -103,7 +102,7 @@ for i in dict:
     H_2_0 += dict[i]*math.log2(dict[i])
 print(-1 * H_2_0)
 
-print(1 - (H_2_0/math.log2(32)))
+print(1 - (-1 * H_2_0/math.log2(31)))
 
 matrix = [[0, 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ы', 'ь', 'э', 'ю', 'я', 'пробел'],
           ['а', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -177,9 +176,12 @@ matrix0 = [[0, 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'й', 'к',
 for i in range(len(text11)-1):
     matrix[kar(text11[i])][kar(text11[i + 1])] += 1
 
+keys = 0
+
 for i in range(1, len(matrix[0])):
     for j in range(1, len(matrix[0])):
         matrix[i][j] = float('{:.5f}'.format(matrix[i][j]/(symbols-1)))
+        keys +=1
 
 for i in range(33):
     print(matrix[i])
@@ -192,16 +194,19 @@ for i in range(1, len(matrix[0])):
             H_1_1 += matrix[i][j]*math.log2(matrix[i][j])
 print(-0.5 * H_1_1)
 
-print(1 - (H_1_1/math.log2(32)))
+print(1 - (-0.5 * H_1_1/math.log2(keys)))
 
 print('---------------------------------------------------------------------------------------------------------------')
 
 for i in range(len(text00)-1):
     matrix0[kar(text00[i])][kar(text00[i + 1])] += 1
 
+keys0 = 0
+
 for i in range(1, len(matrix0[0])):
     for j in range(1, len(matrix0[0])):
         matrix0[i][j] = float('{:.5f}'.format(matrix0[i][j]/(symbols0-1)))
+        keys0 += 1
 
 for i in range(32):
     print(matrix0[i])
@@ -213,7 +218,7 @@ for i in range(1, len(matrix[0])):
             H_2_1 += matrix[i][j]*math.log2(matrix[i][j])
 print(-0.5 * H_2_1)
 
-print(1 - (H_2_1/math.log2(32)))
+print(1 - (-0.5 * H_2_1/math.log2(keys0)))
 
 print('---------------------------------------------------------------------------------------------------------------')
 
@@ -290,9 +295,12 @@ matrix0 = [[0, 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'й', 'к',
 for i in range(0, len(text11)-1, 2):
     matrix[kar(text11[i])][kar(text11[i + 1])] += 1
 
+keys = 0
+
 for i in range(1, len(matrix[0])):
     for j in range(1, len(matrix[0])):
         matrix[i][j] = float('{:.5f}'.format(matrix[i][j]/(symbols/2)))
+        keys += 1
 
 for i in range(33):
     print(matrix[i])
@@ -304,16 +312,19 @@ for i in range(1, len(matrix[0])):
             H_1_2 += matrix[i][j]*math.log2(matrix[i][j])
 print(-0.5 * H_1_2)
 
-print(1 - (H_1_2/math.log2(32)))
+print(1 - (-0.5 * H_1_2/math.log2(keys)))
 
 print('---------------------------------------------------------------------------------------------------------------')
 
 for i in range(0, len(text00)-1, 2):
     matrix0[kar(text00[i])][kar(text00[i + 1])] += 1
 
+keys0 = 0
+
 for i in range(1, len(matrix0[0])):
     for j in range(1, len(matrix0[0])):
         matrix0[i][j] = float('{:.5f}'.format(matrix0[i][j]/(symbols0/2)))
+        keys0 += 1
 
 for i in range(32):
     print(matrix0[i])
@@ -325,4 +336,4 @@ for i in range(1, len(matrix[0])):
             H_2_2 += matrix[i][j]*math.log2(matrix[i][j])
 print(-0.5 * H_2_2)
 
-print(1 - (H_2_2/math.log2(32)))
+print(1 - (-0.5 * H_2_2/math.log2(keys0)))
