@@ -50,11 +50,10 @@ def generate_keys():
 
 
 def extended_euclidean(a, b):
-    if b == 0:
-        return (a, 1, 0)
-    else:
+    if b != 0:
         gcd, x, y = extended_euclidean(b, a % b)
         return (gcd, y, x - (a // b) * y)
+    return (a, 1, 0)
 
 
 def reverse(a, b):
@@ -79,18 +78,15 @@ def generate_key_pair_rsa(p, q):
 #   #   #   #   #   #   #   #   #
 
 def encrypt(message, public_key, modulus):
-    ciphertext = pow(message, public_key, modulus)
-    return ciphertext
+    return pow(message, public_key, modulus)
 
 
 def decrypt(ciphertext, private_key, modulus):
-    plaintext = pow(ciphertext, private_key, modulus)
-    return plaintext
+    return pow(ciphertext, private_key, modulus)
 
 
 def sign(message, private_key, modulus):
-    signature = pow(message, private_key, modulus)
-    return signature
+    return pow(message, private_key, modulus)
 
 
 def verify(message, signature, public_key, modulus):
@@ -110,8 +106,8 @@ def send_key(key, private_key, receiver_public_key, receiver_modulus, modulus):
 
 
 def receive_key(encrypted_key, encrypted_signature, private_key, modulus, sender_pub_key, sender_modulus):
-    local_key = decrypt(encrypted_key, private_key, modulus)
     local_signature = decrypt(encrypted_signature, private_key, modulus)
+    local_key = decrypt(encrypted_key, private_key, modulus)
 
     if verify(local_key, local_signature, sender_pub_key, sender_modulus):
         print("[+] Bob got the message")
