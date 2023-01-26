@@ -74,27 +74,47 @@ class WithProb(Textes):
     def print_data(self):
         temp1 = self.get_freq_of_letters()
         e_temp1 = self.get_entropiy(temp1)
-        print(f'Частота букв в таблиці букви.xlsx\nH1={e_temp1}\nНадлишковість - {self.get_calc_e(e_temp1, len(self.alfavit))}')
+        print(f'Частота букв в таблиці букви.xlsx\nH1={e_temp1}\nНадлишковість - {self.calculate_entropy_lett(self._probel)}')
         temp11 = self.get_freq_of_bigrams(self.alfavit, True)
         e_temp11 = self.get_entropiy(temp11)
-        print(f'Частота біграм в таблиці біграми.xlsx\nH2={e_temp11}\nНадлишковіть -  {self.get_calc_e(e_temp11, len(self.alfavit))}')
+        print(f'Частота біграм в таблиці біграми.xlsx\nH2={e_temp11}\nНадлишковіть -  {self.calculate_entropy_bigr(self._probel, 1)}')
         temp12 = self.get_freq_of_bigrams(self.alfavit, False)
         etemp12 = self.get_entropiy(temp12)
-        print(f'Частота перехресних біграм в таблиці перехрені_біграми.xlsx\nH2={etemp12}\nНадлишковість -{self.get_calc_e(etemp12, len(self.alfavit))}')
+        print(f'Частота перехресних біграм в таблиці перехрені_біграми.xlsx\nH2={etemp12}\nНадлишковість -{self.calculate_entropy_bigr(self._probel, 0)}')
         return temp1,temp11,temp12
 class WithoutProb(Textes):
     def __init__(self, name_file, alfavit):
         super().__init__(name_file,alfavit)
+    def calculate_entropy_bigr(self, txt, touch_point):
+        distance = len(txt)
+        if distance % 2 == 1 and touch_point == 0:
+            distance -= 1
+        bigr = []
+        for i in range(0, distance - 1, 2 - touch_point):
+            bigr.append(txt[i] + txt[i + 1])
+        count = len(bigr)
+        frequency = Counter(bigr)
+        for i in frequency:
+            frequency[i] /= count
+        result = sum(frequency[k] * math.log(frequency[k], 2) for k in frequency) / (-2)
+        return result
+    def calculate_entropy_lett(self, txt):
+        distance = len(txt)
+        frequency = Counter(txt)
+        for i in frequency:
+            frequency[i] /= distance
+        result = -1 * sum(frequency[k] * math.log(frequency[k], 2) for k in frequency)
+        return result
     def print_data(self):
         temp2 = self.get_freq_of_letters()
         e_temp2 = self.get_entropiy(temp2)
-        print(f'Частота букв в таблиці букви_без_пробілів.xlsx\nH1={e_temp2}\nНадлишковість - {self.get_calc_e(e_temp2, len(self.alfavit))}')
+        print(f'Частота букв в таблиці букви_без_пробілів.xlsx\nH1={e_temp2}\nНадлишковість - {self.calculate_entropy_lett(self._say_no_to_probel)}')
         temp21 = self.get_freq_of_bigrams(self.alfavit, True)
         e_temp21 = self.get_entropiy(temp21)
-        print(f'Частота біграм в таблиці біграми_без_пробілів.xlsx\nH2={e_temp21}\nНадлишковість -{self.get_calc_e(e_temp21, len(self.alfavit))}')
+        print(f'Частота біграм в таблиці біграми_без_пробілів.xlsx\nH2={e_temp21}\nНадлишковість -{self.calculate_entropy_bigr(self._say_no_to_probel, 1)}')
         temp22 = self.get_freq_of_bigrams(self.alfavit, False)
         etemp22 = self.get_entropiy(temp22)
-        print(f'Частота перехресних/біграм в таблиці перехресні_біграми_без_пробілів.xlsx\nH2-p = {etemp22}\nНадлилшковість - {self.get_calc_e(etemp22, len(self.alfavit))}')
+        print(f'Частота перехресних/біграм в таблиці перехресні_біграми_без_пробілів.xlsx\nH2-p = {etemp22}\nНадлилшковість - {self.calculate_entropy_bigr(self._say_no_to_probel, 0)}')
         return temp2, temp21, temp22
 
 def save_results(first_data, second_data, first_data_1, first_data_2, second_data_1, second_data_2):
