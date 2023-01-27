@@ -37,15 +37,15 @@ dictionary = dict(Counter(text_without_probels))
 
 
 def bigGramCouple(ourText, crossing):  # Підрахунок частоти біграм
-    objectCoupleAmount = {}  # Об'єкт {біграма: кількість}
-    if crossing:  # Перехресна ентропія
+    objectCoupleAmount = {}  # {біграма: кількість}
+    if crossing:  
         for i in range(0, len(ourText)):
             if ourText[i:i+2] in objectCoupleAmount:
                 objectCoupleAmount[ourText[i:i+2]] += 1
             else:
                 objectCoupleAmount[ourText[i:i+2]] = 1
     else:  # Пари букв, що не перетинаються
-        for i in range(0, len(ourText), 2):  # з кроком два
+        for i in range(0, len(ourText), 2):  # з кроком 2
             if ourText[i:i+2] in objectCoupleAmount:
                 objectCoupleAmount[ourText[i:i+2]] += 1
             else:
@@ -53,7 +53,7 @@ def bigGramCouple(ourText, crossing):  # Підрахунок частоти б�
                 
     generalSum = sum(objectCoupleAmount.values())
     for couple in objectCoupleAmount:
-    # Обчислюємо частоту біграм
+    # частотf біграм
         objectCoupleAmount[couple] = objectCoupleAmount[couple]/generalSum
     return objectCoupleAmount
 
